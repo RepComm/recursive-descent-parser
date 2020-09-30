@@ -9,6 +9,7 @@ async function main() {
   const idents = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_";
   const terms = ";.,"
   const paren = "()";
+  const brackets = "{[]}";
 
   let scanner = new Scanner()
     .addPass("iden", (data, offset) => {
@@ -123,6 +124,18 @@ async function main() {
       }
       return result;
     })
+    .addPass("brak", (data, offset) => {
+      let result: ScannerData = {
+        success: false,
+        readChars: 0,
+        readLines: 0
+      };
+      if (brackets.includes(data.charAt(offset))) {
+        result.success = true;
+        result.readChars = 1;
+      }
+      return result;
+    })
     .addPass("pare", (data, offset) => {
       let result: ScannerData = {
         success: false,
@@ -168,9 +181,12 @@ async function main() {
       return result;
     });
 
-  let src: string = "let test = 2;\nconsole.log(\"\"\"\"hello world\");";
+  let src: string = "class Test { constructor () {} }";
 
-  let tokens = await tokenize(src, scanner);
+  let tokens = await tokenize(src, scanner, ["whsp"]);
+  for (let token of tokens) {
+    console.log(token);
+  }
 }
 
 main();

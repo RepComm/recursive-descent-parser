@@ -2,7 +2,7 @@
 import Token, { EOFToken } from "./token.js";
 import Scanner from "./scanner.js";
 
-export default function tokenizer(data: string, scanner: Scanner): Promise<Array<Token>> {
+export default function tokenizer(data: string, scanner: Scanner, skipTypes?:Array<string>): Promise<Array<Token>> {
   return new Promise((resolve, reject) => {
     let result: Array<Token> = new Array();
 
@@ -12,12 +12,19 @@ export default function tokenizer(data: string, scanner: Scanner): Promise<Array
 
     while (scanner.available() > 0) {
       token = scanner.next();
-      console.log(token);
       if (token.type == "error") {
         reject(`${token.data}`);
         break;
       }
-      result.push(token);
+      if (skipTypes) {
+        if (skipTypes.includes(token.type)) {
+          //don't add it
+        } else {
+          result.push(token);
+        }
+      } else {
+        result.push(token);
+      }
     }
 
     resolve(result);

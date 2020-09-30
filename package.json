@@ -1,0 +1,31 @@
+{
+  "name": "recursive-descent-parser",
+  "version": "1.0.0",
+  "description": "recursive-descent-parser written in ts",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RepComm/recursive-descent-parser.git"
+  },
+  "keywords": [
+    "typescript",
+    "esmodules",
+    "babel",
+    "template"
+  ],
+  "author": "Jonathan Crowder",
+  "license": "Unlicense",
+  "bugs": {
+    "url": "https://github.com/RepComm/recursive-descent-parser/issues"
+  },
+  "homepage": "https://github.com/RepComm/recursive-descent-parser#readme",
+  "devDependencies": {
+    "@babel/cli": "^7.10.5",
+    "@babel/core": "^7.10.5",
+    "@babel/plugin-transform-typescript": "^7.10.5",
+    "@babel/preset-env": "^7.10.4"
+  },
+  "scripts": {
+    "build": "babel src --extensions '.ts' --copy-files -d lib"
+  }
+}

@@ -70,7 +70,7 @@ export default class Scanner {
     this.data = data;
     return this;
   }
-  available (): number {
+  available(): number {
     return this.data.length - this.offset;
   }
   /**Will return the next token unless there is an error, in which case null is returned
@@ -81,10 +81,10 @@ export default class Scanner {
     let passData: ScannerData;
 
     if (this.offset == undefined) this.offset = 0;
-    if (this.offset > this.data.length-1) {
+    if (this.offset > this.data.length - 1) {
       console.log(this.offset, this.data.length);
       result = EOFToken;
-      
+
     }
 
     let broken: boolean = false;
@@ -93,23 +93,21 @@ export default class Scanner {
       if (broken) return;
       passData = pass(this.data, this.offset);
       if (passData.success) {
-        result = {
-          type: name,
-          data: this.data.substring(
-            this.offset,
-            this.offset + passData.readChars
-          )
-        };
+        result = new Token();
+        result.type = name;
+        result.data = this.data.substring(
+          this.offset,
+          this.offset + passData.readChars
+        );
         this.offset += passData.readChars;
         this.readLines += passData.readLines;
         broken = true;
       }
     });
     if (!broken) {
-      result = {
-        type: "error",
-        data: `${this.data.substring(this.offset, this.offset+6)}... at line ${this.readLines} char ${this.readLineChars} could not be parsed`
-      };
+      result = new Token();
+      result.type = "error";
+      result.data = `${this.data.substring(this.offset, this.offset + 6)}... at line ${this.readLines} char ${this.readLineChars} could not be parsed`;
     }
 
     return result;

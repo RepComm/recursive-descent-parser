@@ -1,67 +1,69 @@
 
 import Tree from "./tree.js";
-import Token from "../tokenizer/token.js";
-import JavaScriptScanner from "../tokenizer/langs/javascript.js";
+import Token, { TokenAccessor } from "../tokenizer/token.js";
 
-export class TokenAccessor {
-  tokens: Array<Token>;
-  offset: number;
-  constructor () {
-    this.offset = 0;
-  }
-  setTokens(tokens: Array<Token>): this {
-    this.tokens = tokens.slice(); //copy array
-    return this;
-  }
-  hasNext (): boolean {
-    return (this.offset < this.tokens.length);
-  }
-  setOffset(ind: number): this {
-    this.offset = ind;
-    return this;
-  }
-  /**Fetches next token without incrementing
-   */
-  peakNext (): Token {
-    return this.tokens[this.offset];
-  }
-  next (): Token {
-    let result = this.tokens[this.offset];
-    this.offset ++;
-    return result;
-  }
-  rewind(count: number = 1): this {
-    this.offset -= count;
-    if (this.offset < 0) this.offset = 0;
-    return this;
-  }
-}
+import { StatementTemplate, Statement } from "./statement.js";
 
 export default class Parser {
-  constructor () {
+  stemps: Array<StatementTemplate>;
+  constructor() {
+    this.stemps = new Array();
   }
-  parse (tokens: Token[]): Tree {
+  hasStatementTemplate(statement: StatementTemplate): boolean {
+    return (this.stemps.includes(statement));
+  }
+  addStatementTemplate(statement: StatementTemplate): this {
+    this.stemps.push(statement);
+    return this;
+  }
+  removeStatementTemplate(statement: StatementTemplate): this {
+    let ind = this.stemps.indexOf(statement);
+    if (ind != -1) {
+      this.stemps.splice(ind, 1);
+    }
+    return this;
+  }
+  createStatementTemplate (): StatementTemplate {
+    let result = new StatementTemplate();
+    this.addStatementTemplate(result);
+    return result;
+  }
+  parse(tokens: Token[]): Tree {
+    if (!this.stemps || this.stemps.length < 1) throw `No statement templates, cannot parse tokens!`;
     let accessor = new TokenAccessor().setTokens(tokens);
 
-    let result: Tree = {};
+    let result: Tree = {
+      statements: new Array()
+    };
+    let statement: Statement;
+    let success: boolean = false;
+    let lastToken: Token;
 
     while (accessor.hasNext()) {
-      let t = accessor.next();
-      if (t.is(JavaScriptScanner.IDENTIFIER)) {
-        switch (t.data) {
-          case "let":
-            console.log("var dec", accessor.peakNext().data);
-            break;
-          case "var":
-            break;
-          case "const":
-            break;
-          case "class":
-            break;
+      for (let template of this.stemps) {
+        lastToken = accessor.peakNext();
+
+        statement = template.parse(accessor);
+        if (statement.type != "error") {
+          result.statements.push(statement);
+          success = true;
+          break;
         }
+      }
+      if (!success) {
+        console.warn("dumped the following tree:", result);
+        throw `Failed to parse tokens instead statement starting with ${lastToken}`;
+        return result;
       }
     }
 
     return result;
   }
 }
+
+//statement
+//--expression
+//----const
+//----var
+//----func
+//----operator

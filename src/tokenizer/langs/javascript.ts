@@ -1,5 +1,6 @@
 
 import Scanner, { ScannerData } from "../scanner.js";
+import Token from "../token.js";
 
 const numbers = "0123456789";
 const ops = "-+/*%=";
@@ -10,13 +11,13 @@ const paren = "()";
 const brackets = "{[]}";
 
 export default class JavaScriptScanner extends Scanner {
-  static IDENTIFIER: string = "iden";
-  static STRING_LITERAL: string = "strl";
-  static NUMBER_LITERAL: string = "numl";
-  static OPERATOR: string = "oper";
+  static IDENTIFIER: string = Token.TYPE_IDENTIFIER;
+  static STRING_LITERAL: string = Token.TYPE_STRING_LITERAL;
+  static NUMBER_LITERAL: string = Token.TYPE_NUMBER_LITERAL;
+  static OPERATOR: string = Token.TYPE_OPERATOR;
   static BRACKET: string = "brak";
-  static TERMINATOR: string = "term";
-  static WHITESPACE: string = "whsp";
+  static TERMINATOR: string = Token.TYPE_TERMINATOR;
+  static WHITESPACE: string = Token.TYPE_WHITESPACE;
   static PARENTHESIS: string = "pare";
   constructor() {
     super();

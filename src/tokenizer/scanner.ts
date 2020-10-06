@@ -1,5 +1,5 @@
 
-import Token, { EOFToken } from "./token.js";
+import Token from "./token.js";
 
 /**Data returned by a scanner pass
  */
@@ -83,8 +83,8 @@ export default class Scanner {
     if (this.offset == undefined) this.offset = 0;
     if (this.offset > this.data.length - 1) {
       console.log(this.offset, this.data.length);
-      result = EOFToken;
-
+      result = new Token();
+      result.type = Token.TYPE_EOF;
     }
 
     let broken: boolean = false;
@@ -101,6 +101,7 @@ export default class Scanner {
         );
         this.offset += passData.readChars;
         this.readLines += passData.readLines;
+        result.line = this.readLines;
         broken = true;
       }
     });

@@ -1,5 +1,5 @@
 
-import Token, { EOFToken } from "./token.js";
+import Token from "./token.js";
 import Scanner from "./scanner.js";
 
 export default function tokenizer(data: string, scanner: Scanner, skipTypes?:Array<string>): Promise<Array<Token>> {
@@ -16,6 +16,7 @@ export default function tokenizer(data: string, scanner: Scanner, skipTypes?:Arr
         reject(`${token.data}`);
         break;
       }
+      //basically for comments, and white space
       if (skipTypes) {
         if (skipTypes.includes(token.type)) {
           //don't add it

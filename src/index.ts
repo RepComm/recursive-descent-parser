@@ -1,8 +1,8 @@
 
-import tokenize from "./tokenizer/tokenizer.js";
-import JavaScriptScanner from "./tokenizer/langs/javascript.js";
-import Parser from "./parser/parser.js";
-import { StatementTemplate } from "./parser/statement.js";
+import tokenize from "./tokenizer/tokenizer";
+import JavaScriptScanner from "./tokenizer/langs/javascript";
+import Parser from "./parser/parser";
+import { StatementTemplate } from "./parser/statement";
 
 async function main() {
   let scanner = new JavaScriptScanner();
@@ -10,9 +10,9 @@ async function main() {
   let src: string = "let myvar = 'hello world';";
 
   let tokens = await tokenize(src, scanner, ["whsp"]);
-  for (let token of tokens) {
-    console.log(token);
-  }
+  // for (let token of tokens) {
+  //   console.log(token);
+  // }
 
   //Move this to a javascript parser with all the templates built in
   let parser = new Parser();
@@ -28,10 +28,9 @@ async function main() {
   //the block to be executed
   let forLoopBlock = forLoop.createExpressionTemplate();
 
-
-
-  let tree = parser.parse(tokens);
-  console.log("Tree", tree);
+  console.log(tokens);
+  // let tree = parser.parse(tokens);
+  // console.log("Tree", tree);
 }
 
 main();

@@ -1,5 +1,5 @@
 
-import Token from "./token.js";
+import Token from "./token";
 
 /**Data returned by a scanner pass
  */

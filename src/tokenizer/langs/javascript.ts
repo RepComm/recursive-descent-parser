@@ -1,6 +1,6 @@
 
-import Scanner, { ScannerData } from "../scanner.js";
-import Token from "../token.js";
+import Scanner, { ScannerData } from "../scanner";
+import Token from "../token";
 
 const numbers = "0123456789";
 const ops = "-+/*%=";

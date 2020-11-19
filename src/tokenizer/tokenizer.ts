@@ -1,6 +1,6 @@
 
-import Token from "./token.js";
-import Scanner from "./scanner.js";
+import Token from "./token";
+import Scanner from "./scanner";
 
 export default function tokenizer(data: string, scanner: Scanner, skipTypes?:Array<string>): Promise<Array<Token>> {
   return new Promise((resolve, reject) => {

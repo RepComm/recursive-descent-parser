@@ -1,6 +1,6 @@
 
-import { TokenAccessor } from "../tokenizer/token.js";
-import { ExpressionTemplate, Expression } from "./expression.js";
+import { TokenAccessor } from "../tokenizer/token";
+import { ExpressionTemplate, Expression } from "./expression";
 
 export class Statement {
   type: string;
@@ -11,9 +11,12 @@ export class Statement {
 
 export class StatementTemplate {
   etemps: Array<Expression>;
+  constructor () {
+    this.etemps = new Array();
+  }
   parse(accessor: TokenAccessor): Statement {
     let result: Statement;
-
+    //TODO
     return result;
   }
   hasExpressionTemplate (exp: ExpressionTemplate): boolean {

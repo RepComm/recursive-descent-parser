@@ -1,8 +1,8 @@
 
-import Tree from "./tree.js";
-import Token, { TokenAccessor } from "../tokenizer/token.js";
+import Tree from "./tree";
+import Token, { TokenAccessor } from "../tokenizer/token";
 
-import { StatementTemplate, Statement } from "./statement.js";
+import { StatementTemplate, Statement } from "./statement";
 
 export default class Parser {
   stemps: Array<StatementTemplate>;
@@ -31,7 +31,6 @@ export default class Parser {
   parse(tokens: Token[]): Tree {
     if (!this.stemps || this.stemps.length < 1) throw `No statement templates, cannot parse tokens!`;
     let accessor = new TokenAccessor().setTokens(tokens);
-
     let result: Tree = {
       statements: new Array()
     };
@@ -53,7 +52,6 @@ export default class Parser {
       if (!success) {
         console.warn("dumped the following tree:", result);
         throw `Failed to parse tokens instead statement starting with ${lastToken}`;
-        return result;
       }
     }
 

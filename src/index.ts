@@ -1,8 +1,8 @@
 
-import tokenize from "./tokenizer/tokenizer";
-import JavaScriptScanner from "./tokenizer/langs/javascript";
-import Parser from "./parser/parser";
-import { StatementTemplate } from "./parser/statement";
+import tokenize from "./tokenizer/tokenizer.ts";
+import JavaScriptScanner from "./tokenizer/langs/javascript.ts";
+import Parser from "./parser/parser.ts";
+import { StatementTemplate } from "./parser/statement.ts";
 
 async function main() {
   let scanner = new JavaScriptScanner();

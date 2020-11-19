@@ -1,5 +1,5 @@
 
-import { Statement } from "./statement";
+import { Statement } from "./statement.ts";
 
 export default interface Tree {
   statements?: Array<Statement>;

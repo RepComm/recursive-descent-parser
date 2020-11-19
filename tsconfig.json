@@ -1,0 +1,8 @@
+{
+	"compilerOptions": {
+    "target": "ESNEXT",
+    "module":"esnext",
+    "moduleResolution": "node",
+    "isolatedModules": false
+  }
+}

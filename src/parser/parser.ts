@@ -1,8 +1,8 @@
 
-import Tree from "./tree";
-import Token, { TokenAccessor } from "../tokenizer/token";
+import Tree from "./tree.ts";
+import Token, { TokenAccessor } from "../tokenizer/token.ts";
 
-import { StatementTemplate, Statement } from "./statement";
+import { StatementTemplate, Statement } from "./statement.ts";
 
 export default class Parser {
   stemps: Array<StatementTemplate>;

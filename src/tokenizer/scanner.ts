@@ -1,5 +1,5 @@
 
-import Token from "./token";
+import Token from "./token.ts";
 
 /**Data returned by a scanner pass
  */

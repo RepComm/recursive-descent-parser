@@ -1,11 +1,17 @@
 
-import { TokenAccessor } from "../tokenizer/token";
-import { ExpressionTemplate, Expression } from "./expression";
+import { TokenAccessor } from "../tokenizer/token.ts";
+import { ExpressionTemplate, Expression } from "./expression.ts";
 
 export class Statement {
-  type: string;
+  private type?: string;
   constructor() {
-
+  }
+  setType (t: string): this {
+    this.type = t;
+    return this;
+  }
+  getType (): string {
+    return this.type!;
   }
 }
 
@@ -15,7 +21,7 @@ export class StatementTemplate {
     this.etemps = new Array();
   }
   parse(accessor: TokenAccessor): Statement {
-    let result: Statement;
+    let result: Statement = new Statement();
     //TODO
     return result;
   }

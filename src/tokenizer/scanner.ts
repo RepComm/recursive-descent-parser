@@ -24,7 +24,7 @@ export interface ScannerPass {
 
 export default class Scanner {
   passes: Map<string, ScannerPass>;
-  data: string;
+  data?: string;
   offset: number;
   readLines: number;
   readLineChars: number;
@@ -70,19 +70,23 @@ export default class Scanner {
     this.data = data;
     return this;
   }
+  hasData (): boolean {
+    return this.data != null && this.data != undefined;
+  }
   available(): number {
-    return this.data.length - this.offset;
+    if (this.hasData()) return 0;
+    return this.data!.length - this.offset;
   }
   /**Will return the next token unless there is an error, in which case null is returned
    * 
    */
   next(): Token | null {
-    let result: Token = null;
+    let result: Token|null = null;
     let passData: ScannerData;
 
     if (this.offset == undefined) this.offset = 0;
-    if (this.offset > this.data.length - 1) {
-      console.log(this.offset, this.data.length);
+    if (!this.hasData()) throw `No data assigned, cannot get next token`;
+    if (this.offset > this.data!.length - 1) {
       result = new Token();
       result.type = Token.TYPE_EOF;
     }
@@ -91,11 +95,11 @@ export default class Scanner {
 
     this.passes.forEach((pass, name) => {
       if (broken) return;
-      passData = pass(this.data, this.offset);
+      passData = pass(this.data!, this.offset);
       if (passData.success) {
         result = new Token();
         result.type = name;
-        result.data = this.data.substring(
+        result.data = this.data!.substring(
           this.offset,
           this.offset + passData.readChars
         );
@@ -108,7 +112,7 @@ export default class Scanner {
     if (!broken) {
       result = new Token();
       result.type = "error";
-      result.data = `${this.data.substring(this.offset, this.offset + 6)}... at line ${this.readLines} char ${this.readLineChars} could not be parsed`;
+      result.data = `${this.data!.substring(this.offset, this.offset + 6)}... at line ${this.readLines} char ${this.readLineChars} could not be parsed`;
     }
 
     return result;

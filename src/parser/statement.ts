@@ -3,8 +3,9 @@ import { TokenAccessor } from "../tokenizer/token.ts";
 import { ExpressionTemplate, Expression } from "./expression.ts";
 
 export class Statement {
-  private type?: string;
+  private type: string;
   constructor() {
+    this.type = "error";
   }
   setType (t: string): this {
     this.type = t;

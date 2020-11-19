@@ -43,15 +43,15 @@ export default class Parser {
         lastToken = accessor.peakNext();
 
         statement = template.parse(accessor);
-        if (statement.type != "error") {
-          result.statements.push(statement);
+        if (statement.getType() != "error") {
+          result.statements!.push(statement);
           success = true;
           break;
         }
       }
       if (!success) {
         console.warn("dumped the following tree:", result);
-        throw `Failed to parse tokens instead statement starting with ${lastToken}`;
+        throw `Failed to parse tokens instead statement starting with ${lastToken!}`;
       }
     }
 
